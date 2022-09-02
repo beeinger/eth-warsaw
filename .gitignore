@@ -2,4 +2,4 @@
 .next
 node_modules
 
-tsconfig.*
+tsconfig.tsbuildinfo
