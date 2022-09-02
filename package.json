@@ -1,0 +1,24 @@
+{
+  "name": "eth-warsaw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:mikjakbiak/eth-warsaw.git",
+  "author": "anonymous",
+  "license": "GNU-V3",
+  "private": false,
+  "scripts": {
+    "dev": "next",
+    "start": "next start",
+    "build": "next build"
+  },
+  "dependencies": {
+    "next": "^12.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.14",
+    "@types/react": "^18.0.18",
+    "typescript": "^4.8.2"
+  }
+}
