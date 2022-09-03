@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 
 import Arrow from "./Icons/Arrow";
 import { BlocksContext } from "shared/useBlocks";
+import Crunker from "crunker";
+import DownloadButton from "./Icons/DownloadButton";
 import PauseButton from "./Icons/PauseButton";
 import PlayButton from "./Icons/PlayButton";
 import { colors } from "shared/styles";
@@ -10,7 +12,9 @@ import useMediaPlayer from "shared/useMediaPlayer";
 
 export default function MediaPlayer({ blob }: { blob: Blob }) {
   const { currentTime, duration, isPlaying, togglePlay } = useMediaPlayer(blob);
-  const { nextTrack, previousTrack } = useContext(BlocksContext);
+  const { nextTrack, previousTrack, blockWithTxns, startTxn } = useContext(
+    BlocksContext
+  );
 
   return (
     <MediaPlayerContainer id="media-player">
@@ -30,13 +34,34 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         )}
         <ArrowButton direction="down" onClick={previousTrack} />
       </Controls>
+      <StyledDownloadButton
+        onClick={() => {
+          const crunker = new Crunker();
+          console.log(blob);
+          const blockHash = blockWithTxns.id;
+          const blockSectionStart = startTxn;
+          const blockSectionEnd =
+            blockSectionStart +
+            parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK);
+          const fileName = `stark-block-hash-${blockHash}-txns-${blockSectionStart}-to-${blockSectionEnd}.mp3`;
+          crunker.download(blob, fileName);
+        }}
+      />
     </MediaPlayerContainer>
   );
 }
+const StyledDownloadButton = styled(DownloadButton)`
+  width: 8%;
+  position: absolute;
+  right: 0px;
+  bottom: 50px;
+  cursor: pointer;
+`;
 
 const MediaPlayerContainer = styled.div`
   width: 100%;
   padding: 1.5rem 0;
+  position: relative;
 `;
 
 const CanvasContainer = styled.div`
