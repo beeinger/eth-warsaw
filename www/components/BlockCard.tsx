@@ -2,9 +2,38 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { BlocksContext } from "shared/useBlocks";
 import MediaPlayer from "./MediaPlayer";
+import cacheData from "memory-cache";
 import { colors } from "shared/styles";
 import getBlocksMusic from "shared/music";
 import styled from "@emotion/styled";
+
+const getKey = (blockWithTxns, startTxn) =>
+    "stateRoot=" +
+    blockWithTxns.stateRoot +
+    "&start=" +
+    startTxn +
+    "&end=" +
+    startTxn +
+    parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK),
+  getBlob = (blockWithTxns, startTxn) =>
+    new Promise<Blob>((resolve) => {
+      const key = getKey(blockWithTxns, startTxn);
+      const blob = cacheData.get(key);
+      if (blob) resolve(blob);
+      else
+        getBlocksMusic(
+          blockWithTxns.stateRoot,
+          blockWithTxns.txnsHashes,
+          startTxn,
+          startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)
+        ).then(({ blob }) => {
+          cacheData.put(key, blob);
+          resolve(blob);
+        });
+    }),
+  transactions_per_track = parseInt(
+    process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK
+  );
 
 export default function BlockCard() {
   const { blockWithTxns, startTxn } = useContext(BlocksContext);
@@ -12,13 +41,13 @@ export default function BlockCard() {
 
   useEffect(() => {
     if (!blockWithTxns) return;
-
-    getBlocksMusic(
-      blockWithTxns.stateRoot,
-      blockWithTxns.txnsHashes,
-      startTxn,
-      startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)
-    ).then(({ blob }) => setBlob(blob));
+    // Get current track
+    getBlob(blockWithTxns, startTxn).then((blob) => setBlob(blob));
+    // Get next track
+    getBlob(blockWithTxns, startTxn + transactions_per_track);
+    // Get previous track
+    if (startTxn >= transactions_per_track)
+      getBlob(blockWithTxns, startTxn - transactions_per_track);
   }, [blockWithTxns, startTxn]);
 
   return (
