@@ -3,18 +3,28 @@ import React, { useContext } from "react";
 import Arrow from "./Icons/Arrow";
 import { BlocksContext } from "shared/useBlocks";
 import Crunker from "crunker";
-import DownloadButton from "./Icons/DownloadButton";
 import PauseButton from "./Icons/PauseButton";
 import PlayButton from "./Icons/PlayButton";
+import { TbFileDownload } from "react-icons/tb";
 import { colors } from "shared/styles";
 import styled from "@emotion/styled";
 import useMediaPlayer from "shared/useMediaPlayer";
 
+const downloadTrack = (blob, blockWithTxns, startTxn) => () => {
+  const crunker = new Crunker();
+  const blockHash = blockWithTxns.id;
+  const blockSectionStart = startTxn;
+  const blockSectionEnd =
+    blockSectionStart +
+    parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK);
+  const fileName = `stark-block-hash-${blockHash}-txns-${blockSectionStart}-to-${blockSectionEnd}.mp3`;
+  crunker.download(blob, fileName);
+};
+
 export default function MediaPlayer({ blob }: { blob: Blob }) {
   const { currentTime, duration, isPlaying, togglePlay } = useMediaPlayer(blob);
-  const { nextTrack, previousTrack, blockWithTxns, startTxn } = useContext(
-    BlocksContext
-  );
+  const { nextTrack, previousTrack, blockWithTxns, startTxn } =
+    useContext(BlocksContext);
 
   return (
     <MediaPlayerContainer id="media-player">
@@ -43,23 +53,15 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         )}
       </Controls>
       <StyledDownloadButton
-        onClick={() => {
-          const crunker = new Crunker();
-          console.log(blob);
-          const blockHash = blockWithTxns.id;
-          const blockSectionStart = startTxn;
-          const blockSectionEnd =
-            blockSectionStart +
-            parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK);
-          const fileName = `stark-block-hash-${blockHash}-txns-${blockSectionStart}-to-${blockSectionEnd}.mp3`;
-          crunker.download(blob, fileName);
-        }}
+        onClick={downloadTrack(blob, blockWithTxns, startTxn)}
       />
     </MediaPlayerContainer>
   );
 }
-const StyledDownloadButton = styled(DownloadButton)`
-  width: 8%;
+const StyledDownloadButton = styled(TbFileDownload)`
+  color: white;
+  width: 40px;
+  height: 40px;
   position: absolute;
   right: 0px;
   bottom: 50px;

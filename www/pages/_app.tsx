@@ -1,3 +1,7 @@
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer, toast } from "react-toastify";
+
 import { CacheProvider } from "@emotion/react";
 import Head from "next/head";
 import createCache from "@emotion/cache";
@@ -12,6 +16,7 @@ const App = ({ Component, pageProps }) => (
     </Head>
     {globalStyles}
     <Component {...pageProps} />
+    <ToastContainer toastStyle={{ backgroundColor: "black", color: "white" }} />
   </CacheProvider>
 );
 

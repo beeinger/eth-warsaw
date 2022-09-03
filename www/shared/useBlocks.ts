@@ -44,7 +44,7 @@ export default function useBlocks() {
   useEffect(() => {
     if (!blocks.length) return;
     if (!blockId) setBlockId(blocks[0].id);
-    else toast.info("New block just came in!");
+    else toast.dark("New block just came in!");
   }, [blocks]);
 
   function nextTrack() {
