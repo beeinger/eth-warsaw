@@ -52,7 +52,7 @@ const App = ({ Component, pageProps }) => (
         property="og:image"
         content="https://imageio.forbes.com/specials-images/imageserve/577c129fd7c6ee6a37c42b99/This-is-the-Milky-Way-from-Concordia-Camp--in-Pakistan-s-Karakoram-Range-/960x0.jpg?format=jpg&width=960"
       />
-      <meta property="og:url" content="https://stark-techno.mooon.team/" />
+      <meta property="og:url" content={process.env.NEXT_PUBLIC_SELF_URL} />
       <meta name="twitter:card" content="summary_large_image" />
 
       {/* <!--  Non-Essential, But Recommended --> */}

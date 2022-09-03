@@ -64,7 +64,8 @@ export default function BlockCard() {
           onClick={() => {
             if (!blockWithTxns) return;
             navigator.clipboard.writeText(
-              "https://stark-techno.mooon.team/track/" +
+              process.env.NEXT_PUBLIC_SELF_URL +
+                "/track/" +
                 blockWithTxns.id +
                 "?start=" +
                 startTxn
