@@ -1,14 +1,24 @@
+import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
+import { CgPlayTrackNextO, CgPlayTrackPrevO } from "react-icons/cg";
 import React, { useContext } from "react";
 
-import Arrow from "./Icons/Arrow";
 import { BlocksContext } from "shared/useBlocks";
 import Crunker from "crunker";
-import DownloadButton from "./Icons/DownloadButton";
-import PauseButton from "./Icons/PauseButton";
-import PlayButton from "./Icons/PlayButton";
+import { TbFileDownload } from "react-icons/tb";
 import { colors } from "shared/styles";
 import styled from "@emotion/styled";
 import useMediaPlayer from "shared/useMediaPlayer";
+
+const downloadTrack = (blob, blockWithTxns, startTxn) => () => {
+  const crunker = new Crunker();
+  const blockHash = blockWithTxns.id;
+  const blockSectionStart = startTxn;
+  const blockSectionEnd =
+    blockSectionStart +
+    parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK);
+  const fileName = `stark-block-hash-${blockHash}-txns-${blockSectionStart}-to-${blockSectionEnd}.mp3`;
+  crunker.download(blob, fileName);
+};
 
 export default function MediaPlayer({ blob }: { blob: Blob }) {
   const { currentTime, duration, isPlaying, togglePlay, trackEnded } =
@@ -27,44 +37,33 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         <span>{duration || "--:--"}</span>
       </Duration>
       <Controls>
-        {nextTrack ? (
-          <ArrowButton direction="up" onClick={nextTrack} />
-        ) : (
-          <div />
-        )}
+        {previousTrack ? <NextButton onClick={previousTrack} /> : <div />}
         {isPlaying || trackEnded ? (
           <PauseButton onClick={togglePlay} />
         ) : (
           <PlayButton onClick={togglePlay} />
         )}
-        {previousTrack ? (
-          <ArrowButton direction="down" onClick={previousTrack} />
-        ) : (
-          <div />
-        )}
+        {nextTrack ? <PreviousButton onClick={nextTrack} /> : <div />}
+        <StyledDownloadButton
+          onClick={downloadTrack(blob, blockWithTxns, startTxn)}
+        />
       </Controls>
-      <StyledDownloadButton
-        onClick={() => {
-          const crunker = new Crunker();
-          console.log(blob);
-          const blockHash = blockWithTxns.id;
-          const blockSectionStart = startTxn;
-          const blockSectionEnd =
-            blockSectionStart +
-            parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK);
-          const fileName = `stark-block-hash-${blockHash}-txns-${blockSectionStart}-to-${blockSectionEnd}.mp3`;
-          crunker.download(blob, fileName);
-        }}
-      />
     </MediaPlayerContainer>
   );
 }
-const StyledDownloadButton = styled(DownloadButton)`
-  width: 8%;
+const StyledDownloadButton = styled(TbFileDownload)`
+  color: white;
+  width: 40px;
+  height: 40px;
   position: absolute;
   right: 0px;
-  bottom: 50px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
+
+  :hover {
+    color: ${colors.orange};
+  }
 `;
 
 const MediaPlayerContainer = styled.div`
@@ -111,15 +110,38 @@ const Duration = styled.div`
 const Controls = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 60%;
+  justify-content: center;
+  width: 100%;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   margin-top: 1rem;
+  gap: 1rem;
 `;
 
-const ArrowButton = styled(Arrow)`
-  user-select: none;
+const playPauseButtonStyles = `
+  color: white;
+
   cursor: pointer;
+  user-select: none;
+
+  width: 50px;
+  height: 50px;
+
+  :hover{
+    color: ${colors.orange};
+  }
+`;
+
+const PlayButton = styled(BsPlayCircleFill)`
+  ${playPauseButtonStyles}
+`;
+const PauseButton = styled(BsPauseCircleFill)`
+  ${playPauseButtonStyles}
+`;
+const NextButton = styled(CgPlayTrackPrevO)`
+  ${playPauseButtonStyles}
+`;
+const PreviousButton = styled(CgPlayTrackNextO)`
+  ${playPauseButtonStyles}
 `;

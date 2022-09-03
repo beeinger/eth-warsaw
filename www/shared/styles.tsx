@@ -1,4 +1,4 @@
-import { css, Global } from "@emotion/react";
+import { Global, css } from "@emotion/react";
 
 export const globalStyles = (
   <Global
@@ -11,6 +11,10 @@ export const globalStyles = (
         width: 100vw;
         font-family: Helvetica, Arial, sans-serif;
         font-size: 24px;
+      }
+
+      .Toastify__toast-container {
+        font-size: 16px;
       }
     `}
   />
