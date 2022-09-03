@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 
-import drawAudio from "./drawAudio";
 import { BlocksContext } from "./useBlocks";
+import drawAudio from "./drawAudio";
+import { toast } from "react-toastify";
 
 export default function useMediaPlayer(blob: Blob) {
   const { nextTrack } = useContext(BlocksContext);
@@ -23,7 +24,7 @@ export default function useMediaPlayer(blob: Blob) {
     const url = URL.createObjectURL(blob);
     var audio = new Audio(url);
 
-    audio.addEventListener("canplay", () => {
+    const onAudioReady = () => {
       const durationS = audio.duration;
       setDurationS(durationS);
       const _duration = new Date(durationS * 1000)
@@ -33,7 +34,10 @@ export default function useMediaPlayer(blob: Blob) {
       setAudio(audio);
       if (trackEnded) audio.play();
       setTrackEnded(false);
-    });
+    };
+
+    audio.addEventListener("canplay", onAudioReady);
+    audio.addEventListener("loadedmetadata", () => !duration && onAudioReady());
 
     audio.addEventListener("pause", () => {
       setIsPlaying(false);

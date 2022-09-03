@@ -175,7 +175,7 @@ const SmallerText = styled.div`
 
 const Heading = styled.div`
   color: ${colors.blue};
-  font-size: 48px;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-top: 2rem;
 
