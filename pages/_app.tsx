@@ -8,7 +8,7 @@ const cache = createCache({ key: "next" });
 const App = ({ Component, pageProps }) => (
   <CacheProvider value={cache}>
     <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=0.75" />
+      <meta name="viewport" content="width=device-width, initial-scale=0.5" />
     </Head>
     {globalStyles}
     <Component {...pageProps} />
