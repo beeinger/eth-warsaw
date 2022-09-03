@@ -6,3 +6,4 @@ tsconfig.tsbuildinfo
 .env
 
 backup
+yarn-error.log

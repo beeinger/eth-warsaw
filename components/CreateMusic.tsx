@@ -16,6 +16,8 @@ export default function CreateMusic({ data }: Props) {
         player.current.removeChild(player.current.firstChild);
       player.current.appendChild(element);
 
+      console.log(blob);
+
       // you could also download it like that:
       // const crunker = new Crunker();
       // crunker.download(blob, `${data.blockId}'s music.mp3`);
