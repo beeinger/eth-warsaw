@@ -1,0 +1,14 @@
+{
+  "name": "StarkNet Techno",
+  "short_name": "stark-techno",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FF9D76",
+  "background_color": "#000000",
+  "display": "standalone"
+}
