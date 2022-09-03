@@ -68,7 +68,7 @@ const getBeat = (blockId: string) => {
       true
     );
 
-  return { path: `/${firstVote}/2/${secondVote}.wav`, firstVote };
+  return { path: `/${firstVote}/2/${secondVote}.mp3`, firstVote };
 };
 
 const getOtherPaths = (firstVote: number, txnHash) =>
@@ -77,12 +77,12 @@ const getOtherPaths = (firstVote: number, txnHash) =>
       sizes[category][firstVote],
       txnHash.slice(2).slice(0, (txnHash.length - 2) / 2),
       true
-    )}.wav`,
+    )}.mp3`,
     `/${firstVote}/3/${vote(
       sizes[3][firstVote],
       txnHash.slice(2).slice((txnHash.length - 2) / 2),
       true
-    )}.wav`,
+    )}.mp3`,
   ]);
 
 const getBlocksMusic = (blockId: string, txnsHashes: string[]) => {
