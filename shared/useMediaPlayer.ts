@@ -12,7 +12,11 @@ export default function useMediaPlayer(blob: Blob) {
 
   useEffect(() => {
     if (!blob) return;
-    drawAudio(blob);
+
+    const timeout = setTimeout(() => {
+      drawAudio(blob);
+    }, 1000);
+
     const url = URL.createObjectURL(blob);
     var audio = new Audio(url);
 
@@ -34,7 +38,10 @@ export default function useMediaPlayer(blob: Blob) {
       setIsPlaying(true);
     });
 
-    return () => audio.pause();
+    return () => {
+      audio.pause();
+      timeout && clearTimeout(timeout);
+    };
   }, [blob]);
 
   useEffect(() => {

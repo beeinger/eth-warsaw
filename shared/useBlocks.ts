@@ -48,34 +48,46 @@ export default function useBlocks() {
   }, [blocks]);
 
   function nextTrack() {
+    if (!blockWithTxns) return;
     setStartTxn((prev) => {
       const nextStartTxn =
         prev + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK);
       if (nextStartTxn >= blockWithTxns.txnCount) {
-        setBlockId((prev) => {
-          const internalId = blocks.findIndex((block) => block.id === prev);
-          if (internalId < blocks.length - 1) return blocks[internalId + 1].id;
-          else {
-            setBlocksPage((prev) => prev + 1);
-            return null;
-          }
-        });
+        const internalId = blocks.findIndex((block) => block.id === blockId);
+        if (internalId < blocks.length - 1) {
+          setBlockId(blocks[internalId + 1].id);
+          return 0;
+        } else {
+          setBlocksPage((prev) => prev + 1);
+          setBlockId(null);
+          return 0;
+        }
       } else return nextStartTxn;
     });
   }
   function previousTrack() {
+    if (!blockWithTxns) return;
     setStartTxn((prev) => {
       const nextStartTxn =
         prev - parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK);
       if (nextStartTxn < 0) {
-        setBlockId((prev) => {
-          const internalId = blocks.findIndex((block) => block.id === prev);
-          if (internalId >= 1) return blocks[internalId - 1].id;
-          else {
-            setBlocksPage((prev) => (prev > 0 ? prev - 1 : 0));
-            return null;
-          }
-        });
+        const internalId = blocks.findIndex((block) => block.id === blockId);
+        if (internalId >= 1) {
+          setBlockId(blocks[internalId - 1].id);
+          return (
+            blocks[internalId - 1].txnCount -
+            parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)
+          );
+        } else {
+          setBlocksPage((prev) => {
+            if (prev > 0) {
+              setBlockId(null);
+              return prev - 1;
+            } else return 0;
+          });
+
+          return 0;
+        }
       } else return nextStartTxn;
     });
   }

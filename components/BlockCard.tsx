@@ -25,8 +25,14 @@ export default function BlockCard() {
     <Card>
       <Background />
       <Heading>
-        Block: {blockWithTxns?.number}, txns {startTxn} -{" "}
-        {startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)}
+        Block:{" "}
+        {typeof blockWithTxns?.number === "number"
+          ? blockWithTxns?.number
+          : "..."}
+        , txns {typeof startTxn === "number" ? startTxn : "..."} -{" "}
+        {typeof startTxn === "number"
+          ? startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)
+          : "..."}
       </Heading>
       <MediaPlayer blob={blob} />
     </Card>
