@@ -79,7 +79,7 @@ export default function useMediaPlayer(blob: Blob) {
 
   useEffect(() => {
     if (!audio) return;
-    const width = document.querySelector("#canvas-container").scrollWidth;
+    const width = document.querySelector("canvas").scrollWidth;
     const widthPerSecond = width / durationS;
     const scrollTo = widthPerSecond * currentTimeS;
     document.querySelector("#canvas-container").scrollTo({
