@@ -18,17 +18,17 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         <Canvas />
       </CanvasContainer>
       <Duration>
-        <span>{currentTime}</span>
-        <span>{duration}</span>
+        <span>{currentTime || "--:--"}</span>
+        <span>{duration || "--:--"}</span>
       </Duration>
       <Controls>
-        <Arrow direction="up" onClick={nextTrack} />
+        <ArrowButton direction="up" onClick={nextTrack} />
         {isPlaying ? (
           <PauseButton onClick={togglePlay} />
         ) : (
           <PlayButton onClick={togglePlay} />
         )}
-        <Arrow direction="down" onClick={previousTrack} />
+        <ArrowButton direction="down" onClick={previousTrack} />
       </Controls>
     </MediaPlayerContainer>
   );
@@ -74,4 +74,9 @@ const Controls = styled.div`
   left: 50%;
   transform: translateX(-50%);
   margin-top: 1rem;
+`;
+
+const ArrowButton = styled(Arrow)`
+  user-select: none;
+  cursor: pointer;
 `;

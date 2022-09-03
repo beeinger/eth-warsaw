@@ -4,9 +4,11 @@ import { colors } from "shared/styles";
 export default function Arrow({
   direction = "up",
   onClick,
+  className,
 }: {
   direction: "up" | "down";
-  onClick: () => void;
+  onClick?: () => void;
+  className?: string;
 }) {
   return (
     <svg
@@ -18,6 +20,7 @@ export default function Arrow({
       transform={`rotate(${direction === "up" ? 0 : 180})`}
       cursor="pointer"
       onClick={onClick}
+      className={className}
     >
       <rect
         x="24.8592"
