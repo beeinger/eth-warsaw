@@ -11,17 +11,19 @@ export default function CreateMusic({ data }: Props) {
   useEffect(() => {
     if (!data) return;
 
-    getBlocksMusic(data.blockId, data.txnsHashes).then(({ element, blob }) => {
-      if (player.current.firstChild)
-        player.current.removeChild(player.current.firstChild);
-      player.current.appendChild(element);
+    getBlocksMusic(data.stateRoot, data.txnsHashes).then(
+      ({ element, blob }) => {
+        if (player.current.firstChild)
+          player.current.removeChild(player.current.firstChild);
+        player.current.appendChild(element);
 
-      console.log(blob);
+        console.log(blob);
 
-      // you could also download it like that:
-      // const crunker = new Crunker();
-      // crunker.download(blob, `${data.blockId}'s music.mp3`);
-    });
+        // you could also download it like that:
+        // const crunker = new Crunker();
+        // crunker.download(blob, `${data.blockId}'s music.mp3`);
+      }
+    );
   }, [data]);
 
   return (

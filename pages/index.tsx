@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import { Block, Payload } from "shared/types";
+import React, { useEffect, useState } from "react";
 
-import { Payload } from "shared/types";
+import { api } from "shared";
 import axios from "axios";
 import dynamic from "next/dynamic";
 
@@ -9,22 +10,27 @@ const CreateMusic = dynamic(() => import("components/CreateMusic"), {
 });
 
 export default function index() {
+  const [block, setBlock] = useState<Block>();
   const [data, setData] = React.useState<Payload>(null);
 
   useEffect(() => {
+    api.get("/blocks").then((res) => {
+      setBlock(res.data?.items?.[0] || "");
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!block) return;
     axios
-      .get(
-        "/api/blocks/0x789f28819f696ecfd08fa6964209ae471729d9a4f9d1c2dfb6ce48c1faf671a"
-      )
+      .get("/api/blocks/" + block.id + "?stateRoot=" + block.stateRoot)
       .then((res) => {
         setData(res.data);
       });
-  }, []);
+  }, [block]);
 
   return (
     <div>
-      <div>{data?.blockId}</div>
-      <div>{data?.txnsHashes?.[0]}</div>
+      {block && <div>Current block: {block.stateRoot}</div>}
       <CreateMusic data={data} />
     </div>
   );
