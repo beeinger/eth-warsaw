@@ -14,7 +14,7 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
 
   return (
     <MediaPlayerContainer id="media-player">
-      <CanvasContainer>
+      <CanvasContainer id="canvas-container">
         <Canvas />
       </CanvasContainer>
       <Duration>
