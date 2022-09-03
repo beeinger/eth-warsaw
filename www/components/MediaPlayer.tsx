@@ -1,6 +1,6 @@
 import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
 import { CgPlayTrackNextO, CgPlayTrackPrevO } from "react-icons/cg";
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 
 import { BlocksContext } from "shared/useBlocks";
 import Crunker from "crunker";
@@ -21,26 +21,20 @@ const downloadTrack = (blob, blockWithTxns, startTxn) => () => {
 };
 
 export default function MediaPlayer({ blob }: { blob: Blob }) {
-  const {
-    currentTime,
-    duration,
-    isPlaying,
-    togglePlay,
-    trackEnded,
-  } = useMediaPlayer(blob);
-  const { nextTrack, previousTrack, blockWithTxns, startTxn } = useContext(
-    BlocksContext
-  );
+  const { currentTime, duration, isPlaying, togglePlay, trackEnded } =
+    useMediaPlayer(blob);
+  const { nextTrack, previousTrack, blockWithTxns, startTxn } =
+    useContext(BlocksContext);
 
-  const handleKeyEvent = (e) => {
-    if (e.code === "Space") togglePlay();
-  };
+  const handleKeyEvent = useCallback(
+    (e) => e.code === "Space" && togglePlay(),
+    [togglePlay]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyEvent);
-
     return () => window.removeEventListener("keydown", handleKeyEvent);
-  }, []);
+  }, [togglePlay]);
 
   return (
     <MediaPlayerContainer id="media-player">
