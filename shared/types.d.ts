@@ -29,3 +29,5 @@ export type Block = {
   l1VerificationTxHash: string | null;
   status: string;
 };
+
+export type BlockWithTxns = Block & Payload;

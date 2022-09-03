@@ -1,32 +1,33 @@
-import { Block, Payload } from "shared/types";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
+import { BlocksContext } from "shared/useBlocks";
 import MediaPlayer from "./MediaPlayer";
+import { colors } from "shared/styles";
 import getBlocksMusic from "shared/music";
 import styled from "@emotion/styled";
-import { colors } from "shared/styles";
 
-type Props = { data: Payload; block: Block };
-
-export default function BlockCard({ data, block }: Props) {
+export default function BlockCard() {
+  const { blockWithTxns, startTxn } = useContext(BlocksContext);
   const [blob, setBlob] = useState<Blob>();
-  const [startTxn, setStartTxn] = useState(0);
 
   useEffect(() => {
-    if (!data) return;
+    if (!blockWithTxns) return;
 
     getBlocksMusic(
-      data.stateRoot,
-      data.txnsHashes,
+      blockWithTxns.stateRoot,
+      blockWithTxns.txnsHashes,
       startTxn,
-      startTxn + 10
-    ).then(({ element, blob }) => setBlob(blob));
-  }, [data]);
+      startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)
+    ).then(({ blob }) => setBlob(blob));
+  }, [blockWithTxns, startTxn]);
 
   return (
     <Card>
       <Background />
-      <Heading>Block: 2137</Heading>
+      <Heading>
+        Block: {blockWithTxns?.number}, txns {startTxn} -{" "}
+        {startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)}
+      </Heading>
       <MediaPlayer blob={blob} />
     </Card>
   );

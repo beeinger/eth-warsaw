@@ -13,12 +13,14 @@ const getTxns = (blockId, p, items) =>
       return data.lastPage === p ? newItems : getTxns(blockId, p + 1, newItems);
     });
 
-export default async (req: NextApiRequest, res: NextApiResponse<Payload>) => {
-  const { blockId, stateRoot } = req.query as {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse<Omit<Payload, "stateRoot">>
+) => {
+  const { blockId } = req.query as {
     blockId: string;
-    stateRoot: string;
   };
-  if (!blockId || !stateRoot) return res.status(400).end();
+  if (!blockId) return res.status(400).end();
   let payload = null;
 
   if (blockId !== "pending") payload = cacheData.get(blockId);
@@ -27,7 +29,6 @@ export default async (req: NextApiRequest, res: NextApiResponse<Payload>) => {
 
   if (!payload) {
     payload = await getTxns(blockId, 1, []).then((items) => ({
-      stateRoot,
       txnsHashes: items.map((txn) => txn.hash),
     }));
 

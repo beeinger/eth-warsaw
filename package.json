@@ -4,7 +4,7 @@
   "main": "index.js",
   "repository": "git@github.com:mikjakbiak/eth-warsaw.git",
   "author": "anonymous",
-  "license": "GNU-V3",
+  "license": "AGPL-3.0-or-later",
   "private": false,
   "scripts": {
     "dev": "next",
@@ -20,12 +20,15 @@
     "memory-cache": "^0.2.0",
     "next": "^12.2.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-toastify": "^9.0.8",
+    "swr": "^1.3.0"
   },
   "devDependencies": {
     "@types/node": "^18.7.14",
     "@types/react": "^18.0.18",
     "@types/react-dom": "18.0.6",
+    "@types/react-toastify": "^4.1.0",
     "typescript": "^4.8.2"
   }
 }
