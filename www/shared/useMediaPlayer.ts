@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import drawAudio from "./drawAudio";
+import { BlocksContext } from "./useBlocks";
 
 export default function useMediaPlayer(blob: Blob) {
+  const { nextTrack } = useContext(BlocksContext);
   const [audio, setAudio] = useState<HTMLAudioElement>(undefined);
   const [currentTimeS, setCurrentTimeS] = useState<number>(0);
   const [durationS, setDurationS] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState("00:00");
   const [duration, setDuration] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [trackEnded, setTrackEnded] = useState(false);
 
   useEffect(() => {
     if (!blob) return;
@@ -28,6 +31,8 @@ export default function useMediaPlayer(blob: Blob) {
         .substring(14, 19);
       setDuration(_duration);
       setAudio(audio);
+      if (trackEnded) audio.play();
+      setTrackEnded(false);
     });
 
     audio.addEventListener("pause", () => {
@@ -38,8 +43,13 @@ export default function useMediaPlayer(blob: Blob) {
       setIsPlaying(true);
     });
 
+    audio.addEventListener("ended", () => {
+      setTrackEnded(true);
+      nextTrack();
+    });
+
     return () => {
-      audio.pause();
+      if (!trackEnded) audio.pause();
       timeout && clearTimeout(timeout);
     };
   }, [blob]);
@@ -84,5 +94,6 @@ export default function useMediaPlayer(blob: Blob) {
     duration,
     isPlaying,
     togglePlay,
+    trackEnded,
   };
 }

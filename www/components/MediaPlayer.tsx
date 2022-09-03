@@ -11,10 +11,10 @@ import styled from "@emotion/styled";
 import useMediaPlayer from "shared/useMediaPlayer";
 
 export default function MediaPlayer({ blob }: { blob: Blob }) {
-  const { currentTime, duration, isPlaying, togglePlay } = useMediaPlayer(blob);
-  const { nextTrack, previousTrack, blockWithTxns, startTxn } = useContext(
-    BlocksContext
-  );
+  const { currentTime, duration, isPlaying, togglePlay, trackEnded } =
+    useMediaPlayer(blob);
+  const { nextTrack, previousTrack, blockWithTxns, startTxn } =
+    useContext(BlocksContext);
 
   return (
     <MediaPlayerContainer id="media-player">
@@ -31,7 +31,7 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         ) : (
           <div />
         )}
-        {isPlaying ? (
+        {isPlaying || trackEnded ? (
           <PauseButton onClick={togglePlay} />
         ) : (
           <PlayButton onClick={togglePlay} />
