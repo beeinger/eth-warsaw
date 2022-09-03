@@ -85,7 +85,12 @@ const getOtherPaths = (firstVote: number, txnHash) =>
     )}.mp3`,
   ]);
 
-const getBlocksMusic = (stateRoot: string, txnsHashes: string[]) => {
+const getBlocksMusic = (
+  stateRoot: string,
+  txnsHashes: string[],
+  txnsFrom: number,
+  txnsTo: number
+) => {
   const { path: beatPath, firstVote } = getBeat(stateRoot);
 
   const crunker = new Crunker();
@@ -94,7 +99,7 @@ const getBlocksMusic = (stateRoot: string, txnsHashes: string[]) => {
   if (firstVote === 2) beatPaths = [...beatPaths, ...beatPaths];
 
   return Promise.all(
-    txnsHashes.map((txnHash) => {
+    txnsHashes.slice(txnsFrom, txnsTo).map((txnHash) => {
       const otherPaths = getOtherPaths(firstVote, txnHash);
       return Promise.all(
         otherPaths.map((paths) =>
@@ -114,11 +119,11 @@ const getBlocksMusic = (stateRoot: string, txnsHashes: string[]) => {
         );
     })
   ).then((buffers) => {
-    const { element, blob } = crunker.export(
+    const { element, blob, url } = crunker.export(
       crunker.concatAudio(buffers),
       "audio/mp3"
     );
-    return { element, blob };
+    return { element, blob, url };
   });
 };
 

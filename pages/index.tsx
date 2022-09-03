@@ -22,7 +22,13 @@ export default function index() {
   useEffect(() => {
     if (!block) return;
     axios
-      .get("/api/blocks/" + block.id + "?stateRoot=" + block.stateRoot)
+      // .get("/api/blocks/" + block.id + "?stateRoot=" + block.stateRoot)
+      .get(
+        "/api/blocks/" +
+          "0x1ea06cd202ddf4b521582829d01886689f07d2a6af709101b170dfcee02e76" +
+          "?stateRoot=" +
+          "0x03cfea9b28970594973f1f44d7fbc7962018d61a6c7b28236eb23caade0eaad4"
+      )
       .then((res) => {
         setData(res.data);
       });
