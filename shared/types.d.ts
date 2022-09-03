@@ -14,6 +14,18 @@ export interface Transaction {
 }
 
 export type Payload = {
-  blockId: string;
+  stateRoot: string;
   txnsHashes: string[];
+};
+
+export type Block = {
+  number: string;
+  id: string;
+  timestamp: number;
+  stateRoot: string;
+  txnCount: number;
+  msgCount: number;
+  evCount: number;
+  l1VerificationTxHash: string | null;
+  status: string;
 };

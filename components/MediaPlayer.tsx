@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import drawAudio from "../shared/drawAudio";
-import styled from "@emotion/styled";
-import PlayButton from "./Icons/PlayButton";
 import Arrow from "./Icons/Arrow";
 import PauseButton from "./Icons/PauseButton";
+import PlayButton from "./Icons/PlayButton";
+import drawAudio from "../shared/drawAudio";
+import styled from "@emotion/styled";
 
 interface MediaPlayerProps {
   blob: Blob;

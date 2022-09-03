@@ -1,19 +1,25 @@
-import styled from "@emotion/styled";
+import { Block, Payload } from "shared/types";
 import React, { useEffect, useState } from "react";
-import getBlocksMusic from "shared/music";
-import { Payload } from "shared/types";
+
 import MediaPlayer from "./MediaPlayer";
+import getBlocksMusic from "shared/music";
+import styled from "@emotion/styled";
 
-type Props = { data: Payload };
+type Props = { data: Payload; block: Block };
 
-export default function BlockCard({ data }: Props) {
-  const [blob, setBlob] = useState<Blob>(undefined);
+export default function BlockCard({ data, block }: Props) {
+  const [blob, setBlob] = useState<Blob>();
+  const [startTxn, setStartTxn] = useState(0);
+
   useEffect(() => {
     if (!data) return;
 
-    getBlocksMusic(data.blockId, data.txnsHashes).then(({ element, blob }) => {
-      setBlob(blob);
-    });
+    getBlocksMusic(
+      data.stateRoot,
+      data.txnsHashes,
+      startTxn,
+      startTxn + 10
+    ).then(({ element, blob }) => setBlob(blob));
   }, [data]);
 
   return (
