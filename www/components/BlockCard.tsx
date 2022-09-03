@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { BlocksContext } from "shared/useBlocks";
 import { FaRegShareSquare } from "react-icons/fa";
+import Image from "next/image";
 import MediaPlayer from "./MediaPlayer";
 import cacheData from "memory-cache";
 import { colors } from "shared/styles";
@@ -61,14 +62,17 @@ export default function BlockCard() {
         {/* copy to clipboard */}
         <div
           onClick={() => {
+            if (!blockWithTxns) return;
             navigator.clipboard.writeText(
-              "https://stark-techno.mooon.team/track/" +
+              process.env.NEXT_PUBLIC_SELF_URL +
+                "/track/" +
                 blockWithTxns.id +
                 "?start=" +
                 startTxn
             );
             toast.dark("Copied to clipboard!");
           }}
+          title="Copy link to track to clipboard"
         >
           <div>
             <div>
@@ -87,6 +91,17 @@ export default function BlockCard() {
         </div>
       </Heading>
       <MediaPlayer blob={blob} />
+      {blockWithTxns && (
+        <VoyagerLink
+          href={
+            "https://voyager.online/block/" + blockWithTxns.id + "#transactions"
+          }
+          target="_blank"
+          title="View block on Voyager"
+        >
+          <Image src="/voyager.png" width={40} height={40} />
+        </VoyagerLink>
+      )}
     </Card>
   );
 }
@@ -161,7 +176,7 @@ const SmallerText = styled.div`
 
 const Heading = styled.div`
   color: ${colors.blue};
-  font-size: 48px;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-top: 2rem;
 
@@ -190,4 +205,10 @@ const StyledCopyButton = styled(FaRegShareSquare)`
   cursor: pointer;
 
   margin-left: 32px;
+`;
+
+const VoyagerLink = styled.a`
+  position: absolute;
+  top: 40px;
+  left: 40px;
 `;

@@ -120,7 +120,7 @@ const getBlocksMusic = (
     })
   ).then((buffers) => {
     const { element, blob, url } = crunker.export(
-      crunker.concatAudio(buffers),
+      crunker.concatAudio(buffers || []),
       "audio/mp3"
     );
     return { element, blob, url };
