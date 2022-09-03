@@ -1,4 +1,5 @@
 import React from "react";
+import { colors } from "shared/styles";
 
 export default function Arrow({
   direction = "up",
@@ -24,11 +25,11 @@ export default function Arrow({
         width="18"
         height="49"
         rx="9"
-        fill="#F98466"
+        fill={colors.orange}
       />
       <path
         d="M27.1223 11.5759C30.2227 6.35764 37.7773 6.35762 40.8777 11.5759L56.2639 37.4727C59.4323 42.8055 55.5892 49.559 49.3863 49.559H18.6137C12.4108 49.559 8.56769 42.8055 11.736 37.4728L27.1223 11.5759Z"
-        fill="#F98466"
+        fill={colors.orange}
       />
     </svg>
   );

@@ -1,6 +1,15 @@
-import "../styles.css";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
 
-// This default export is required in a new `pages/_app.js` file.
-export default function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
-}
+import { globalStyles } from "../shared/styles";
+
+const cache = createCache({ key: "next" });
+
+const App = ({ Component, pageProps }) => (
+  <CacheProvider value={cache}>
+    {globalStyles}
+    <Component {...pageProps} />
+  </CacheProvider>
+);
+
+export default App;

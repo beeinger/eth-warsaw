@@ -21,7 +21,6 @@ export default function index() {
 }
 
 const Layout = styled.div`
-  background: black;
   display: flex;
   flex-direction: column;
   align-items: center;
