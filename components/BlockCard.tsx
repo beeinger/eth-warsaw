@@ -7,7 +7,7 @@ import MediaPlayer from "./MediaPlayer";
 type Props = { data: Payload };
 
 export default function BlockCard({ data }: Props) {
-  const [blob, setBlob] = useState(undefined);
+  const [blob, setBlob] = useState<Blob>(undefined);
   useEffect(() => {
     if (!data) return;
 
@@ -25,7 +25,7 @@ export default function BlockCard({ data }: Props) {
 }
 
 const Card = styled.div`
-  background-color: white;
+  background-color: black;
   border-radius: 32px;
   display: flex;
   flex-direction: column;
@@ -33,8 +33,16 @@ const Card = styled.div`
   justify-content: center;
   overflow: auto;
   width: 50%;
+  padding: 0 2rem;
+
+  -webkit-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
 `;
 
 const Heading = styled.div`
+  color: #52e1ff;
   font-size: 48px;
+  font-weight: 600;
+  margin: 2rem 0;
 `;

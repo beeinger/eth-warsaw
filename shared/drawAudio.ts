@@ -33,7 +33,7 @@ const normalizeData = (filteredData: number[]): number[] => {
 const draw = (normalizedData: number[]) => {
   const canvas = document.querySelector("canvas");
   const dpr = window.devicePixelRatio || 1;
-  const padding = 20;
+  const padding = 10;
   const width = 8;
   canvas.width = width * normalizedData.length;
   canvas.height = (canvas.offsetHeight + padding * 2) * dpr;
@@ -61,7 +61,7 @@ const drawLineSegment = (
   isEven: boolean
 ) => {
   ctx.lineWidth = 1;
-  ctx.strokeStyle = "#fff";
+  ctx.strokeStyle = "#52E1FF";
   ctx.beginPath();
   height = isEven ? height : -height;
   ctx.moveTo(x, 0);

@@ -30,7 +30,7 @@ export default function index() {
 }
 
 const Layout = styled.div`
-  background: #29296e;
+  background: black;
   display: flex;
   flex-direction: column;
   align-items: center;
