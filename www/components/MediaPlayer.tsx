@@ -2,7 +2,6 @@ import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
 import { CgPlayTrackNextO, CgPlayTrackPrevO } from "react-icons/cg";
 import React, { useContext } from "react";
 
-import Arrow from "./Icons/Arrow";
 import { BlocksContext } from "shared/useBlocks";
 import Crunker from "crunker";
 import { TbFileDownload } from "react-icons/tb";
@@ -22,7 +21,8 @@ const downloadTrack = (blob, blockWithTxns, startTxn) => () => {
 };
 
 export default function MediaPlayer({ blob }: { blob: Blob }) {
-  const { currentTime, duration, isPlaying, togglePlay } = useMediaPlayer(blob);
+  const { currentTime, duration, isPlaying, togglePlay, trackEnded } =
+    useMediaPlayer(blob);
   const { nextTrack, previousTrack, blockWithTxns, startTxn } =
     useContext(BlocksContext);
 
@@ -37,7 +37,7 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
       </Duration>
       <Controls>
         {previousTrack ? <NextButton onClick={previousTrack} /> : <div />}
-        {isPlaying ? (
+        {isPlaying || trackEnded ? (
           <PauseButton onClick={togglePlay} />
         ) : (
           <PlayButton onClick={togglePlay} />
