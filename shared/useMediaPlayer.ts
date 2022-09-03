@@ -4,6 +4,8 @@ import drawAudio from "./drawAudio";
 
 export default function useMediaPlayer(blob: Blob) {
   const [audio, setAudio] = useState<HTMLAudioElement>(undefined);
+  const [currentTimeS, setCurrentTimeS] = useState<number>(0);
+  const [durationS, setDurationS] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState("00:00");
   const [duration, setDuration] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -20,6 +22,7 @@ export default function useMediaPlayer(blob: Blob) {
 
     audio.addEventListener("canplay", () => {
       const durationS = audio.duration;
+      setDurationS(durationS);
       const _duration = new Date(durationS * 1000)
         .toISOString()
         .substring(14, 19);
@@ -46,6 +49,7 @@ export default function useMediaPlayer(blob: Blob) {
 
     const interval = setInterval(() => {
       const currentTimeS = audio.currentTime;
+      setCurrentTimeS(currentTimeS);
       const _currentTime = new Date(currentTimeS * 1000)
         .toISOString()
         .substring(14, 19);
@@ -62,6 +66,18 @@ export default function useMediaPlayer(blob: Blob) {
       return !prev;
     });
   }
+
+  useEffect(() => {
+    if (!audio) return;
+    const width = document.querySelector("#canvas-container").scrollWidth;
+    const widthPerSecond = width / durationS;
+    const scrollTo = widthPerSecond * currentTimeS;
+    document.querySelector("#canvas-container").scrollTo({
+      top: 0,
+      left: scrollTo,
+      behavior: "smooth",
+    });
+  }, [currentTimeS, durationS]);
 
   return {
     currentTime,
