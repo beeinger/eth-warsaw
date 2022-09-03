@@ -1,76 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import Arrow from "./Icons/Arrow";
+import { BlocksContext } from "shared/useBlocks";
 import PauseButton from "./Icons/PauseButton";
 import PlayButton from "./Icons/PlayButton";
-import drawAudio from "../shared/drawAudio";
 import styled from "@emotion/styled";
+import useMediaPlayer from "shared/useMediaPlayer";
 
-interface MediaPlayerProps {
-  blob: Blob;
-}
-
-export default function MediaPlayer({ blob }: MediaPlayerProps) {
-  const [audio, setAudio] = useState<HTMLAudioElement>(undefined);
-  const [currentTime, setCurrentTime] = useState("00:00");
-  const [duration, setDuration] = useState("");
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const toggleIsPlaying = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  useEffect(() => {
-    if (!blob) return;
-    drawAudio(blob);
-    const url = URL.createObjectURL(blob);
-    var audio = new Audio(url);
-
-    audio.addEventListener("canplay", () => {
-      const durationS = audio.duration;
-      const _duration = new Date(durationS * 1000)
-        .toISOString()
-        .substring(14, 19);
-      setDuration(_duration);
-      setAudio(audio);
-    });
-
-    audio.addEventListener("pause", () => {
-      setIsPlaying(false);
-    });
-
-    audio.addEventListener("play", () => {
-      setIsPlaying(true);
-    });
-
-    return () => audio.pause();
-  }, [blob]);
-
-  useEffect(() => {
-    if (!audio) return;
-
-    const interval = setInterval(() => {
-      const currentTimeS = audio.currentTime;
-      const _currentTime = new Date(currentTimeS * 1000)
-        .toISOString()
-        .substring(14, 19);
-      setCurrentTime(_currentTime);
-    }, 500);
-
-    return () => clearInterval(interval);
-  }, [audio]);
-
-  function togglePlay() {
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-
-    toggleIsPlaying();
-  }
+export default function MediaPlayer({ blob }: { blob: Blob }) {
+  const { currentTime, duration, isPlaying, togglePlay } = useMediaPlayer(blob);
+  const { nextTrack, previousTrack } = useContext(BlocksContext);
 
   return (
     <MediaPlayerContainer id="media-player">
@@ -82,13 +21,13 @@ export default function MediaPlayer({ blob }: MediaPlayerProps) {
         <span>{duration}</span>
       </Duration>
       <Controls>
-        <Arrow direction="up" />
+        <Arrow direction="up" onClick={nextTrack} />
         {isPlaying ? (
           <PauseButton onClick={togglePlay} />
         ) : (
           <PlayButton onClick={togglePlay} />
         )}
-        <Arrow direction="down" />
+        <Arrow direction="down" onClick={previousTrack} />
       </Controls>
     </MediaPlayerContainer>
   );

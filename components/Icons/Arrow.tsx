@@ -1,10 +1,12 @@
 import React from "react";
 
-type Props = {
+export default function Arrow({
+  direction = "up",
+  onClick,
+}: {
   direction: "up" | "down";
-};
-
-export default function Arrow({ direction = "up" }: Props) {
+  onClick: () => void;
+}) {
   return (
     <svg
       width="68"
@@ -14,6 +16,7 @@ export default function Arrow({ direction = "up" }: Props) {
       xmlns="http://www.w3.org/2000/svg"
       transform={`rotate(${direction === "up" ? 0 : 180})`}
       cursor="pointer"
+      onClick={onClick}
     >
       <rect
         x="24.8592"
