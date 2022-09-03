@@ -3,8 +3,9 @@ import React, { useEffect } from "react";
 import { Payload } from "shared/types";
 import axios from "axios";
 import dynamic from "next/dynamic";
+import styled from "@emotion/styled";
 
-const CreateMusic = dynamic(() => import("components/CreateMusic"), {
+const BlockCard = dynamic(() => import("components/BlockCard"), {
   ssr: false,
 });
 
@@ -22,10 +23,18 @@ export default function index() {
   }, []);
 
   return (
-    <div>
-      <div>{data?.blockId}</div>
-      <div>{data?.txnsHashes?.[0]}</div>
-      <CreateMusic data={data} />
-    </div>
+    <Layout>
+      <BlockCard data={data} />
+    </Layout>
   );
 }
+
+const Layout = styled.div`
+  background: #29296e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+`;
