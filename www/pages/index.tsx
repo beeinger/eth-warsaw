@@ -20,7 +20,7 @@ export default function index() {
   );
 }
 
-const Layout = styled.div`
+export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

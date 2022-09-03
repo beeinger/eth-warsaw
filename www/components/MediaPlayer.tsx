@@ -22,13 +22,21 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         <span>{duration || "--:--"}</span>
       </Duration>
       <Controls>
-        <ArrowButton direction="up" onClick={nextTrack} />
+        {nextTrack ? (
+          <ArrowButton direction="up" onClick={nextTrack} />
+        ) : (
+          <div />
+        )}
         {isPlaying ? (
           <PauseButton onClick={togglePlay} />
         ) : (
           <PlayButton onClick={togglePlay} />
         )}
-        <ArrowButton direction="down" onClick={previousTrack} />
+        {previousTrack ? (
+          <ArrowButton direction="down" onClick={previousTrack} />
+        ) : (
+          <div />
+        )}
       </Controls>
     </MediaPlayerContainer>
   );
