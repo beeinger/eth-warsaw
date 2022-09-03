@@ -1,11 +1,15 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 
 import { BlocksContext } from "shared/useBlocks";
+import { IoArrowBack } from "react-icons/io5";
 import { Layout } from "pages";
+import Link from "next/link";
 import { Payload } from "shared/types";
 import { api } from "shared";
 import axios from "axios";
+import { colors } from "shared/styles";
 import dynamic from "next/dynamic";
+import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
@@ -51,7 +55,26 @@ export default function index() {
     >
       <Layout>
         <BlockCard />
+        <Link href="/">
+          <div>
+            <BackButton />
+          </div>
+        </Link>
       </Layout>
     </BlocksContext.Provider>
   );
 }
+
+const BackButton = styled(IoArrowBack)`
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  height: 40px;
+  width: 40px;
+  color: white;
+  cursor: pointer;
+
+  :hover {
+    color: ${colors.orange};
+  }
+`;
