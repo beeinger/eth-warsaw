@@ -5,6 +5,7 @@ import PauseButton from "./Icons/PauseButton";
 import PlayButton from "./Icons/PlayButton";
 import drawAudio from "../shared/drawAudio";
 import styled from "@emotion/styled";
+import { colors } from "shared/styles";
 
 interface MediaPlayerProps {
   blob: Blob;
@@ -119,7 +120,7 @@ const Canvas = styled.canvas`
 
 const Duration = styled.div`
   display: flex;
-  color: #52e1ff;
+  color: ${colors.blue};
   align-items: center;
   justify-content: space-between;
   font-size: 20px;

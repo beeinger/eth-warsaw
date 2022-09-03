@@ -1,3 +1,5 @@
+import { colors } from "./styles";
+
 // @ts-ignore:next-line
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
@@ -61,7 +63,7 @@ const drawLineSegment = (
   isEven: boolean
 ) => {
   ctx.lineWidth = 1;
-  ctx.strokeStyle = "#52E1FF";
+  ctx.strokeStyle = colors.blue;
   ctx.beginPath();
   height = isEven ? height : -height;
   ctx.moveTo(x, 0);
