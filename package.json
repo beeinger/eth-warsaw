@@ -3,5 +3,6 @@
   "workspaces": [
     "www",
     "contracts"
-  ]
+  ],
+  "license": "AGPL-3.0-or-later"
 }
