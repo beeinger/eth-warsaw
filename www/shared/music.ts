@@ -99,7 +99,7 @@ const getBlocksMusic = (
   if (firstVote === 2) beatPaths = [...beatPaths, ...beatPaths];
 
   return Promise.all(
-    txnsHashes.slice(txnsFrom, txnsTo).map((txnHash) => {
+    txnsHashes.slice(txnsFrom || 0, txnsTo || undefined).map((txnHash) => {
       const otherPaths = getOtherPaths(firstVote, txnHash);
       return Promise.all(
         otherPaths.map((paths) =>

@@ -29,6 +29,7 @@ const getKey = (blockWithTxns, startTxn) =>
           blockWithTxns.txnsHashes,
           startTxn,
           startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK)
+          // undefined
         ).then(({ blob }) => {
           cacheData.put(key, blob);
           resolve(blob);
@@ -49,7 +50,8 @@ export default function BlockCard() {
     // Get current track
     getBlob(blockWithTxns, startTxn).then((blob) => setBlob(blob));
     // Get next track
-    getBlob(blockWithTxns, startTxn + transactions_per_track);
+    if (startTxn + transactions_per_track < blockWithTxns.txnCount - 1)
+      getBlob(blockWithTxns, startTxn + transactions_per_track);
     // Get previous track
     if (startTxn >= transactions_per_track)
       getBlob(blockWithTxns, startTxn - transactions_per_track);

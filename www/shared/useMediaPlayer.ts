@@ -49,7 +49,7 @@ export default function useMediaPlayer(blob: Blob) {
 
     audio.addEventListener("ended", () => {
       setTrackEnded(true);
-      nextTrack();
+      nextTrack?.();
     });
 
     return () => {
