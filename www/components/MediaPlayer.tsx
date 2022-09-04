@@ -1,6 +1,7 @@
 import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
 import { CgPlayTrackNextO, CgPlayTrackPrevO } from "react-icons/cg";
 import React, { useCallback, useContext, useEffect } from "react";
+import { useStarknet, useStarknetInvoke } from "@starknet-react/core";
 
 import { BlocksContext } from "shared/useBlocks";
 import Crunker from "crunker";
@@ -8,10 +9,8 @@ import { TbFileDownload } from "react-icons/tb";
 import { colors } from "shared/styles";
 import styled from "@emotion/styled";
 import { toast } from "react-toastify";
-import useMediaPlayer from "shared/useMediaPlayer";
-import { useStarknet, useStarknetInvoke } from "@starknet-react/core";
-
 import { useL2Beat } from "shared/starknet/useL2Beat";
+import useMediaPlayer from "shared/useMediaPlayer";
 
 const downloadTrack = (blob, blockWithTxns, startTxn) => () => {
   const crunker = new Crunker();
@@ -40,8 +39,6 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
     return () => window.removeEventListener("keydown", handleKeyEvent);
   }, [togglePlay]);
 
-  // ---
-
   const { account } = useStarknet();
   const { contract: l2Beat } = useL2Beat();
   const { invoke } = useStarknetInvoke<any>({
@@ -50,13 +47,15 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
   });
 
   const handleMint = () => {
+    toast.dark(
+      "If you see an error, it means you're late and this track belongs to someone else...",
+      { position: "top-left" }
+    );
     invoke({
       args: [blockWithTxns.stateRoot, startTxn, startTxn + 8],
       metadata: { method: "mint", message: "Mint song" },
     });
   };
-
-  // ---
 
   return (
     <MediaPlayerContainer id="media-player">
@@ -72,7 +71,10 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
           onClick={
             account
               ? handleMint
-              : () => toast.dark("To mint, connect your wallet!")
+              : () =>
+                  toast.dark("To mint, connect your wallet!", {
+                    position: "top-left",
+                  })
           }
           account={account}
         >
