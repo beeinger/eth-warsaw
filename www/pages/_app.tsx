@@ -78,6 +78,11 @@ function App({ Component, pageProps }: AppProps) {
             name="twitter:image:alt"
             content="[StarkNet techno playing in the background]"
           />
+
+          <link
+            rel="stylesheet"
+            href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack-subset.css"
+          />
         </Head>
         {globalStyles}
         <Component {...pageProps} />

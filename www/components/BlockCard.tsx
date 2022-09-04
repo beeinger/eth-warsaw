@@ -39,7 +39,7 @@ const getKey = (blockWithTxns, startTxn) =>
     process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK
   );
 
-const truncateHash = (hash) => hash.slice(0, 5) + "..." + hash.slice(-5);
+export const truncateHash = (hash) => hash.slice(0, 5) + "..." + hash.slice(-5);
 
 export default function BlockCard() {
   const { blockWithTxns, startTxn } = useContext(BlocksContext);

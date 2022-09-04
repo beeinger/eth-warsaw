@@ -5,6 +5,9 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
+  images: {
+    domains: ["images.prismic.io"],
+  },
 };
 
 module.exports = nextConfig;

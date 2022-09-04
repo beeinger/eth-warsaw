@@ -7,6 +7,7 @@ import Crunker from "crunker";
 import { TbFileDownload } from "react-icons/tb";
 import { colors } from "shared/styles";
 import styled from "@emotion/styled";
+import { toast } from "react-toastify";
 import useMediaPlayer from "shared/useMediaPlayer";
 import { useStarknet } from "@starknet-react/core";
 
@@ -65,7 +66,16 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         <span>{duration || "--:--"}</span>
       </Duration>
       <Controls>
-        <StyledMintButton onClick={handleMint}>mint</StyledMintButton>
+        <StyledMintButton
+          onClick={
+            account
+              ? handleMint
+              : () => toast.dark("To mint, connect your wallet!")
+          }
+          account={account}
+        >
+          mint
+        </StyledMintButton>
         {previousTrack ? <NextButton onClick={previousTrack} /> : <div />}
         {isPlaying || trackEnded ? (
           <PauseButton onClick={togglePlay} />
@@ -96,10 +106,8 @@ const StyledDownloadButton = styled(TbFileDownload)`
   }
 `;
 
-const StyledMintButton = styled.button`
-  color: white;
-  width: 40px;
-  height: 40px;
+const StyledMintButton = styled.span<{ account: string }>`
+  color: #ff875b;
   position: absolute;
   left: 0px;
   top: 50%;
@@ -109,6 +117,8 @@ const StyledMintButton = styled.button`
   :hover {
     color: ${colors.orange};
   }
+
+  ${({ account }) => !account && `opacity: 0.5;`}
 `;
 
 const MediaPlayerContainer = styled.div`
