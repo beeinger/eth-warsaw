@@ -9,8 +9,6 @@ import dynamic from "next/dynamic";
  * Solve this issue by wrapping the "real" connect wallet component in
  * a dynamic component that is only rendered in the browser.
  */
-const ConnectWallet = dynamic(() => import("./ConnectWallet"), {
+export const ConnectWallet = dynamic(() => import("./ConnectWallet"), {
   ssr: false,
 });
-
-export default ConnectWallet;

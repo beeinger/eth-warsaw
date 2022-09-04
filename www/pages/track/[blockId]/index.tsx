@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 
 import { BlocksContext } from "shared/useBlocks";
+import { ConnectWallet } from "components/ConnectWallet";
 import { IoArrowBack } from "react-icons/io5";
 import { Layout } from "pages";
 import Link from "next/link";
@@ -61,6 +62,7 @@ export default function index() {
           </div>
         </Link>
       </Layout>
+      <ConnectWallet />
     </BlocksContext.Provider>
   );
 }

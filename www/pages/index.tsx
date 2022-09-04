@@ -1,6 +1,6 @@
 import useBlocks, { BlocksContext } from "shared/useBlocks";
 
-import ConnectWallet from "components/ConnectWallet";
+import { ConnectWallet } from "components/ConnectWallet";
 import React from "react";
 import dynamic from "next/dynamic";
 import styled from "@emotion/styled";
