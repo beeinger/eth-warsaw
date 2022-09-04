@@ -8,3 +8,6 @@ libs_path = "lib"
 main = [
     "src/L2Beat.cairo",
 ]
+
+["protostar.build"]
+cairo-path = ["./lib/cairo_contracts/src"]
