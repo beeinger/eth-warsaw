@@ -25,7 +25,6 @@ function App({ Component, pageProps }: AppProps) {
             name="viewport"
             content="width=device-width, initial-scale=0.55"
           />
-
           <link
             rel="apple-touch-icon"
             sizes="180x180"
@@ -51,7 +50,7 @@ function App({ Component, pageProps }: AppProps) {
           <meta charSet="UTF-8" />
           <meta
             name="description"
-            content="Revoke classical music, embrace StarkNet techno."
+            content="Revoke classical music, embrace StarkNet techno. Have you ever heard of blockchain? - Yes; But have you ever heard the blockchain? - *visible confusion*"
           />
           <meta
             name="keywords"
@@ -68,7 +67,7 @@ function App({ Component, pageProps }: AppProps) {
           {/* <!--  Non-Essential, But Recommended --> */}
           <meta
             property="og:description"
-            content="Revoke classical music, embrace StarkNet techno."
+            content="Revoke classical music, embrace StarkNet techno. Have you ever heard of blockchain? - Yes; But have you ever heard the blockchain? - *visible confusion*"
           />
           <meta property="og:site_name" content="StarkNet Techno" />
           <meta
