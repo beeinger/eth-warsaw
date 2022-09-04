@@ -9,7 +9,9 @@ import { colors } from "shared/styles";
 import styled from "@emotion/styled";
 import { toast } from "react-toastify";
 import useMediaPlayer from "shared/useMediaPlayer";
-import { useStarknet } from "@starknet-react/core";
+import { useStarknet, useStarknetInvoke } from "@starknet-react/core";
+
+import { useL2Beat } from "shared/starknet/useL2Beat";
 
 const downloadTrack = (blob, blockWithTxns, startTxn) => () => {
   const crunker = new Crunker();
@@ -41,17 +43,17 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
   // ---
 
   const { account } = useStarknet();
+  const { contract: l2Beat } = useL2Beat();
+  const { invoke } = useStarknetInvoke<any>({
+    contract: l2Beat,
+    method: "mint",
+  });
 
   const handleMint = () => {
-    console.log(
-      blockWithTxns.id,
-      blockWithTxns.stateRoot,
-      startTxn,
-      Math.min(
-        startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK),
-        blockWithTxns.txnCount - 1
-      )
-    );
+    invoke({
+      args: [blockWithTxns.stateRoot, startTxn, startTxn + 8],
+      metadata: { method: "mint", message: "Mint song" },
+    });
   };
 
   // ---
