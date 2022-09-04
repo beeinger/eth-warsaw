@@ -47,7 +47,7 @@ function App({ Component, pageProps }: AppProps) {
 
           {/* <!--  Basic Tags --> */}
           <title>StarkNet Techno</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.ico?v=2" />
           <meta charSet="UTF-8" />
           <meta
             name="description"
@@ -61,10 +61,7 @@ function App({ Component, pageProps }: AppProps) {
           {/* <!--  Essential META Tags --> */}
           <meta property="og:title" content="StarkNet Techno" />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:image"
-            content="https://imageio.forbes.com/specials-images/imageserve/577c129fd7c6ee6a37c42b99/This-is-the-Milky-Way-from-Concordia-Camp--in-Pakistan-s-Karakoram-Range-/960x0.jpg?format=jpg&width=960"
-          />
+          <meta property="og:image" content="/thumbnail.png" />
           <meta property="og:url" content={process.env.NEXT_PUBLIC_SELF_URL} />
           <meta name="twitter:card" content="summary_large_image" />
 
