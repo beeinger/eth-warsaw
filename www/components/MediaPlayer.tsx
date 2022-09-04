@@ -47,6 +47,8 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
   });
 
   const handleMint = () => {
+    if (!blockWithTxns)
+      return toast.dark("Let the thing load first...", { autoClose: 1000 });
     toast.dark(
       "If you see an error, it means you're late and this track belongs to someone else...",
       { position: "top-left" }

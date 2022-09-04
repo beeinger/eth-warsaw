@@ -5,15 +5,13 @@ import Image from "next/image";
 import { colors } from "shared/styles";
 import styled from "@emotion/styled";
 import { truncateHash } from "components/BlockCard";
-import { useMemo } from "react";
 
 export default function ConnectWallet() {
   const { account } = useStarknet();
   const { available, connect, disconnect } = useConnectors();
-  const connector = useMemo(
-    () => available.find((connector) => connector.name() === "Argent X"),
-    [available]
-  );
+  const connector =
+    available.find((connector) => connector.name() === "Argent X") ||
+    available[0];
 
   if (account)
     return (
