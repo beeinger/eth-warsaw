@@ -8,6 +8,7 @@ import { TbFileDownload } from "react-icons/tb";
 import { colors } from "shared/styles";
 import styled from "@emotion/styled";
 import useMediaPlayer from "shared/useMediaPlayer";
+import { useStarknet } from "@starknet-react/core";
 
 const downloadTrack = (blob, blockWithTxns, startTxn) => () => {
   const crunker = new Crunker();
@@ -36,6 +37,24 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
     return () => window.removeEventListener("keydown", handleKeyEvent);
   }, [togglePlay]);
 
+  // ---
+
+  const { account } = useStarknet();
+
+  const handleMint = () => {
+    console.log(
+      blockWithTxns.id,
+      blockWithTxns.stateRoot,
+      startTxn,
+      Math.min(
+        startTxn + parseInt(process.env.NEXT_PUBLIC_TRANSACTIONS_PER_TRACK),
+        blockWithTxns.txnCount - 1
+      )
+    );
+  };
+
+  // ---
+
   return (
     <MediaPlayerContainer id="media-player">
       <CanvasContainer id="canvas-container">
@@ -46,6 +65,7 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
         <span>{duration || "--:--"}</span>
       </Duration>
       <Controls>
+        <StyledMintButton onClick={handleMint}>mint</StyledMintButton>
         {previousTrack ? <NextButton onClick={previousTrack} /> : <div />}
         {isPlaying || trackEnded ? (
           <PauseButton onClick={togglePlay} />
@@ -60,12 +80,28 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
     </MediaPlayerContainer>
   );
 }
+
 const StyledDownloadButton = styled(TbFileDownload)`
   color: white;
   width: 40px;
   height: 40px;
   position: absolute;
   right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  :hover {
+    color: ${colors.orange};
+  }
+`;
+
+const StyledMintButton = styled.button`
+  color: white;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 0px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
