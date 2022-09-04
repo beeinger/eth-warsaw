@@ -10,6 +10,7 @@ export const globalStyles = (
         min-height: 100vh;
         width: 100vw;
         font-family: Helvetica, Arial, sans-serif;
+        font-family: Hack, monospace;
         font-size: 24px;
       }
 
