@@ -42,8 +42,10 @@ export default function useBlocks() {
   const [startTxn, setStartTxn] = useState(0);
 
   useEffect(() => {
+    console.log("blocks", blocks);
     if (!blocks.length) return;
-    if (!blockId) setBlockId(blocks[0].id);
+    console.log("blockId", blockId);
+    if (!blockId) setBlockId(blocks[0].id || blocks[1].id);
     else toast.dark("New block just came in!");
   }, [blocks]);
 
