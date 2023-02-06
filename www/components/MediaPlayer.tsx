@@ -63,6 +63,7 @@ export default function MediaPlayer({ blob }: { blob: Blob }) {
     <MediaPlayerContainer id="media-player">
       <CanvasContainer id="canvas-container">
         <Canvas />
+        <Spacer />
       </CanvasContainer>
       <Duration>
         <span>{currentTime || "--:--"}</span>
@@ -138,6 +139,9 @@ const CanvasContainer = styled.div`
   padding: 1rem 0;
   box-sizing: border-box;
 
+  display: flex;
+  flex-direction: row;
+
   overflow: auto;
 
   -ms-overflow-style: none; /* IE and Edge */
@@ -149,6 +153,12 @@ const CanvasContainer = styled.div`
 
 const Canvas = styled.canvas`
   height: 100%;
+`;
+
+const Spacer = styled.div`
+  height: 100%;
+  width: 100%;
+  flex-shrink: 0;
 `;
 
 const Duration = styled.div`
